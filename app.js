@@ -145,7 +145,7 @@ class Fighter {
 
     if (defender.name === "Link") {
       defTextArray.push(
-        `but ${defrName}'s raises his Mirror Shield and deflects the attack!`
+        `but ${defrName} raises his Mirror Shield and deflects the attack!`
       );
     }
     if (defender.name === "Fox") {
