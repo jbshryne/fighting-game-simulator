@@ -73,6 +73,7 @@ class Fighter {
         atkTextArray = [
           `${atkrName} swings an open palm to smack ${defrName}!`,
           `${atkrName} slaps the ground, sending shock waves toward ${defrName}!`,
+          `With fists outstretched, ${atkrName} spins toward ${defrName} like a top!`,
           `${atkrName} winds up and swings his giant fist at ${defrName}!`,
         ];
         break;
@@ -87,9 +88,10 @@ class Fighter {
         break;
       case "Samus":
         atkTextArray = [
+          `${atkrName} aims her Arm Cannon at ${defrName} and fires a barrage of shots!`,
           `${atkrName} drops a Morph Ball Bomb near ${defrName}!`,
           `${atkrName} performs a Screw Attack on ${defrName}!`,
-          `${atkrName} sends a fully-charged shot from her Arm Cannon at ${defrName}!`,
+          `${atkrName} sends a fully-charged Arm Cannon shot at ${defrName}!`,
         ];
         break;
       case "Yoshi":
@@ -103,15 +105,17 @@ class Fighter {
       case "Kirby":
         atkTextArray = [
           `${atkrName} aims a flurry of fist jabs at ${defrName}!`,
+          `${atkrName} whips out his Hammer to smash ${defrName}!`,
           `${atkrName} floats upward and drops toward ${defrName} in Stone form!`,
-          `${atkrName} leaps up to deliver a blow with his Sword at ${defrName}!`,
+          `${atkrName} leaps forward to deliver a blow with his Sword at ${defrName}!`,
         ];
         break;
       case "Fox":
         atkTextArray = [
           `${atkrName} performs a tail sweep on ${defrName}!`,
-          `${atkrName} fires his blaster at will toward ${defrName}!`,
+          `${atkrName} aims his Blaster at ${defrName} and fires at will!`,
           `Flames form around ${atkrName}'s body, who launches himself at ${defrName}!`,
+          `${atkrName} goes to lash ${defrName} with his Energy Whip!`,
         ];
         break;
       case "Pikachu":
@@ -119,6 +123,7 @@ class Fighter {
           `${atkrName} launches himself head-first toward ${defrName}!`,
           `${atkrName} sends a bolt of electricity toward ${defrName}!`,
           `${atkrName} summons lightning from the sky in ${defrName}'s direction!`,
+          `${atkrName} whips his jagged tail at ${defrName}!`,
         ];
         break;
       default:
@@ -145,12 +150,14 @@ class Fighter {
 
     if (defender.name === "Link") {
       defTextArray.push(
+        `but ${defrName} raises his Mirror Shield and deflects the attack!`,
         `but ${defrName} raises his Mirror Shield and deflects the attack!`
       );
     }
     if (defender.name === "Fox") {
       defTextArray.push(
-        `but ${defrName} activates his Reflector to repel the attack!`
+        `but ${defrName} activates his Reflector to repel the attack!`,
+        `but ${defrName} activates his Reflector to repel the attack!`,
       );
     }
 
