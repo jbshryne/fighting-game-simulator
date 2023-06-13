@@ -1,0 +1,73 @@
+body {
+  background-color: rgb(38, 38, 42);
+  color: white;
+  text-align: center;
+}
+
+button {
+  font-size: 18px;
+  font-weight: bolder;
+  padding: 7px;
+  border-radius: 10%;
+}
+
+span {
+  font-weight: bold;
+}
+
+#crowd {
+    font-style: italic;
+}
+
+#logBox p {
+  font-size: 22px;
+}
+
+.exchange {
+  /* outline: white auto 1px; */
+  padding: 12px 0px;
+}
+
+.hp {
+    color: rgb(184, 201, 246)
+}
+
+span.Mario {
+  color: rgb(200, 40, 0);
+}
+span.DK {
+  color: rgb(144, 100, 34);
+}
+
+span.Link {
+  color: rgb(44, 137, 48);
+}
+
+span.Samus {
+  color: rgb(20, 170, 230);
+}
+
+span.Yoshi {
+  color: rgb(132, 225, 86);
+}
+
+span.Kirby {
+  color: rgb(240, 170, 240);
+}
+
+span.Fox {
+  color: rgb(234, 120, 50);
+}
+
+span.Pikachu {
+  color: rgb(255, 200, 0);
+}
+
+.player1 {
+  margin-right: 350px;
+  /* background-color: */
+}
+
+.player2 {
+  margin-left: 350px;
+}
