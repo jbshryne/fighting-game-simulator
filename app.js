@@ -252,7 +252,7 @@ class Fighter {
       if (inhaleChance > 0.7) {
         attackLog.innerHTML = `${atkrName} briefly inhales ${defrName} to copy ${defender.pronouns.posv} abilities, becoming <span class="Kirby copying">${defender.name} Kirby</>!`;
         attackLog.classList.add(`player${attacker.playerNum}`);
-        attacker.displayName = `<span class="Kirby">${defender.name} Kirby</span>`;
+        attacker.displayName = `<span class="Kirby copying">${defender.name} Kirby</span>`;
         attacker.copying = true;
         exchangeBox.append(attackLog);
         logBox.append(exchangeBox);
@@ -338,9 +338,9 @@ function newMatch() {
 
         // console.log(typeof p1.displayName);
 
-        if (!p1.displayName.includes("copying"))
+        if (p1.displayName.includes("copying"))
           p1.displayName = `<span class="${p1.name}">${p1.name}</span>`;
-        if (!p2.displayName.includes("copying"))
+        if (p2.displayName.includes("copying"))
           p2.displayName = `<span class="${p2.name}">${p2.name}</span>`;
 
         // console.log("Final display names: ", p1.displayName, p2.displayName);
