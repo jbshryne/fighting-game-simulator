@@ -278,7 +278,7 @@ class Fighter {
   }
 }
 
-fightButton.addEventListener("click", () => {
+function newMatch() {
   window.scrollTo(0, 0);
   logBox.innerHTML = "";
 
@@ -331,6 +331,7 @@ fightButton.addEventListener("click", () => {
         const newMatchButton = document.createElement("button")
         newMatchButton.innerText = "NEW MATCH!"
         newMatchButton.style.marginTop = "30px"
+        newMatchButton.addEventListener("click", newMatch)
         logBox.append(newMatchButton)
       }
     }
@@ -347,4 +348,7 @@ fightButton.addEventListener("click", () => {
   }
 
   combat(player1, player2);
-});
+}
+
+fightButton.addEventListener("click", newMatch);
+
