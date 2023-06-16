@@ -179,64 +179,46 @@ class Fighter {
       atkTextArray.push(...atksByCharacter(attacker.name));
     }
 
-    const hitTextArray = [
-      "IT CONNECTS!",
-      "GOT 'EM!",
-      "HIT!",
-      "NICE!",
-      "BOOM!",
-      "WHAM!",
-      "OUCH!",
-      "OOF!",
-      "WOW!",
-      "KAPOW!",
-      "AMAZING!",
-      "INCREDIBLE!",
-    ];
+    // const hitTextArray = [
+    //   "IT CONNECTS!",
+    //   "HIT!",
+    //   "GOT 'EM!",
+    //   "NICE!",
+    //   "BOOM!",
+    //   "WHAM!",
+    //   "OUCH!",
+    //   "OOF!",
+    //   "WOW!",
+    //   "KAPOW!",
+    //   "AMAZING!",
+    //   "INCREDIBLE!",
+    // ];
 
-    function chooseHitText(damage, array) {
-      var startIndex, endIndex;
-    
+    function generateHitText(damage) {
+      const hitTextArray = [];
       switch (damage) {
         case 1:
-          startIndex = 0;
-          endIndex = 1;
-          break;
         case 2:
-          startIndex = 2;
-          endIndex = 3;
+          hitTextArray.push("IT CONNECTS!", "HIT!", "GOT 'EM!", "NICE!");
           break;
         case 3:
-          startIndex = 4;
-          endIndex = 5;
-          break;
         case 4:
-          startIndex = 6;
-          endIndex = 7;
+          hitTextArray.push("BOOM!", "WHAM!", "OUCH!", "OOF!");
           break;
         case 5:
-          startIndex = 8;
-          endIndex = 9;
-          break;
         case 6:
-          startIndex = 10;
-          endIndex = 11;
+          hitTextArray.push("KAPOW!", "WOW!", "AMAZING!", "INCREDIBLE!");
           break;
         default:
-          startIndex = 0;
-          endIndex = 0;
+          hitTextArray.push("HIT!");
       }
-    
-      if (startIndex >= hitTextArray.length) {
-        startIndex = hitTextArray.length - 1;
-      }
-    
-      return hitTextArray[Math.floor(Math.random() * (endIndex - startIndex + 1)) + startIndex];
-    }
-    
-    const hitText = chooseHitText(damage, hitTextArray)
 
-    // console.log()
+      return hitTextArray[Math.floor(Math.random() * hitTextArray.length)];
+    }
+
+    const hitText = generateHitText(damage);
+
+    console.log(hitText)
 
     const defTextArray = [
       `but the attack misses!`,
