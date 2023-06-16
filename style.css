@@ -15,12 +15,17 @@ span {
   font-weight: bold;
 }
 
+#pageTitle {
+  color: rgb(190, 198, 221);
+  padding: 25px;
+}
+
 #crowd {
-    font-style: italic;
+  font-style: italic;
 }
 
 #logBox p {
-  font-size: 22px;
+  font-size: 25px;
 }
 
 .exchange {
@@ -29,7 +34,7 @@ span {
 }
 
 .hp {
-    color: rgb(184, 201, 246)
+  color: rgb(184, 201, 246);
 }
 
 span.Mario {

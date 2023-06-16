@@ -10,8 +10,8 @@ function noNeg(num) {
   return fixedNum;
 }
 
-function randomPick(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
+function randomPick(arr, random = Math.random()) {
+  return arr[Math.floor(random * arr.length)];
 }
 
 // Array of Smash Bros character names
@@ -31,7 +31,7 @@ const fightButton = document.getElementById("fightButton");
 const logBox = document.getElementById("logBox");
 
 class Fighter {
-  constructor(name, playerNum, hp = 10, str = 0, def = 0) {
+  constructor(name, playerNum, hp = 20, str = 0, def = 0) {
     this.name = name;
     this.displayName = `<span class="${name}">${name}</span>`;
     this.upperCaseName = `<span class="${name}">${name.toUpperCase()}</span>`;
@@ -39,107 +39,159 @@ class Fighter {
     this.hp = hp;
     this.str = str;
     this.def = def;
+    this.copying = false;
+    switch (this.name) {
+      case "Mario":
+      case "DK":
+      case "Link":
+      case "Yoshi":
+      case "Kirby":
+      case "Fox":
+      case "Pikachu":
+        this.pronouns = {
+          subj: "he",
+          pred: "him",
+          posv: "his",
+        };
+        break;
+      case "Samus":
+        this.pronouns = {
+          subj: "she",
+          pred: "her",
+          posv: "hers",
+        };
+        break;
+      default:
+        this.pronouns = {
+          subj: "they",
+          pred: "them",
+          posv: "their",
+        };
+    }
   }
 
   atk(defender, attacker = this) {
     // Sets attack power to random number between 6 and 10
-    attacker.str = Math.floor(Math.random() * 5) + 6;
+    const atkNumValue = Math.random();
+    attacker.str = Math.floor(atkNumValue * 5) + 6;
+
     // Sets defense power to random number between 4 and 9
     defender.def = Math.floor(Math.random() * 6) + 4;
     // NOTE: Ranges have been modified from original assignment instructions
     //       to speed things up (as even failed attacks are now logged) &
     //       to attempt to create more dynamic combat scenarios
 
-    const atkrName = attacker.displayName;
-    const defrName = defender.displayName;
+    let atkrName = attacker.displayName;
+    let defrName = defender.displayName;
+    let pn = attacker.pronouns;
     const damage = attacker.str - defender.def;
+
     const exchangeBox = document.createElement("div");
     exchangeBox.classList.add("exchange");
 
     // ARRAYS OF RANDOMIZED FLAVOR TEXT
 
     // Descriptions of attack, categorized by character
-    let atkTextArray;
-    switch (attacker.name) {
-      case "Mario":
-        atkTextArray = [
-          `${atkrName} swings in to punch ${defrName}!`,
-          `${atkrName} lobs a giant Fireball at ${defrName}!`,
-          `${atkrName} goes to uppercut ${defrName} like a coin block!`,
-          `${atkrName} spins his Cape toward ${defrName}!`,
-        ];
-        break;
-      case "DK":
-        atkTextArray = [
-          `${atkrName} swings an open palm to smack ${defrName}!`,
-          `${atkrName} slaps the ground, sending shock waves toward ${defrName}!`,
-          `With fists outstretched, ${atkrName} spins toward ${defrName} like a top!`,
-          `${atkrName} winds up and swings his giant fist at ${defrName}!`,
-        ];
-        break;
-      case "Link":
-        const arrowArray = ["a Fire", "an Ice", "a Light", "a Bomb"];
-        atkTextArray = [
-          `${atkrName} whips out his bow and fires ${randomPick(arrowArray)} Arrow at ${defrName}!`,
-          `${atkrName} throws his Boomerang at ${defrName}!`,
-          `${atkrName} thrusts the Master Sword directly at ${defrName}!`,
-          `${atkrName} tosses a Bomb at ${defrName}!`,
-        ];
-        break;
-      case "Samus":
-        atkTextArray = [
-          `${atkrName} aims her Arm Cannon at ${defrName} and fires a barrage of shots!`,
-          `${atkrName} drops a Morph Ball Bomb near ${defrName}!`,
-          `${atkrName} performs a Screw Attack on ${defrName}!`,
-          `${atkrName} sends a fully-charged Arm Cannon shot at ${defrName}!`,
-        ];
-        break;
-      case "Yoshi":
-        atkTextArray = [
-          `${atkrName} tosses an Egg Bomb towards ${defrName}!`,
-          `${atkrName} leaps up to perform a Flutter Kick at ${defrName}!`,
-          `${atkrName} launches his tongue at ${defrName} to take a bite!`,
-          `${atkrName} performs a Ground Pound toward ${defrName}!`,
-        ];
-        break;
-      case "Kirby":
-        atkTextArray = [
-          `${atkrName} aims a flurry of fist jabs at ${defrName}!`,
-          `${atkrName} whips out his Hammer to smash ${defrName}!`,
-          `${atkrName} floats upward and drops toward ${defrName} in Stone form!`,
-          `${atkrName} leaps forward to deliver a blow with his Sword at ${defrName}!`,
-        ];
-        break;
-      case "Fox":
-        atkTextArray = [
-          `${atkrName} performs a tail sweep on ${defrName}!`,
-          `${atkrName} aims his Blaster at ${defrName} and fires at will!`,
-          `Flames form around ${atkrName}'s body, who launches himself at ${defrName}!`,
-          `${atkrName} goes to lash ${defrName} with his Energy Whip!`,
-        ];
-        break;
-      case "Pikachu":
-        atkTextArray = [
-          `${atkrName} launches himself head-first toward ${defrName}!`,
-          `${atkrName} sends a bolt of electricity toward ${defrName}!`,
-          `${atkrName} summons lightning from the sky in ${defrName}'s direction!`,
-          `${atkrName} whips his jagged tail at ${defrName}!`,
-        ];
-        break;
-      default:
-        atkTextArray = [`${atkrName} attacks ${defrName}!`];
+    let atkTextArray = [];
+
+    function atksByCharacter(name) {
+      switch (name) {
+        case "Mario":
+          return [
+            `${atkrName} swings in to punch ${defrName}!`,
+            `${atkrName} spins ${pn.posv} Cape toward ${defrName}!`,
+            `${atkrName} lobs a giant Fireball at ${defrName}!`,
+            `${atkrName} goes to uppercut ${defrName} like a coin block!`,
+          ];
+        case "DK":
+          return [
+            `${atkrName} swings an open palm to smack ${defrName}!`,
+            `${atkrName} slaps the ground, sending shock waves toward ${defrName}!`,
+            `With fists outstretched, ${atkrName} spins toward ${defrName} like a top!`,
+            `${atkrName} winds up and swings ${pn.posv} giant fist at ${defrName}!`,
+          ];
+        case "Link":
+          const arrowArray = ["a Fire", "an Ice", "a Light", "a Bomb"];
+          return [
+            `${atkrName} throws ${pn.posv} Boomerang at ${defrName}!`,
+            `${atkrName} whips out ${pn.posv} bow and fires ${randomPick(
+              arrowArray
+            )} Arrow at ${defrName}!`,
+            `${atkrName} thrusts the Master Sword directly at ${defrName}!`,
+            `${atkrName} tosses a Bomb at ${defrName}!`,
+          ];
+        case "Samus":
+          return [
+            `${atkrName} aims ${pn.posv} Arm Cannon at ${defrName} and fires a barrage of shots!`,
+            `${atkrName} drops a Morph Ball Bomb near ${defrName}!`,
+            `${atkrName} performs a Screw Attack on ${defrName}!`,
+            `${atkrName} sends a fully-charged Arm Cannon shot at ${defrName}!`,
+          ];
+        case "Yoshi":
+          return [
+            `${atkrName} launches ${pn.posv} tongue at ${defrName} to take a bite!`,
+            `${atkrName} leaps up to perform a Flutter Kick at ${defrName}!`,
+            `${atkrName} performs a Ground Pound toward ${defrName}!`,
+            `${atkrName} tosses an Egg Bomb towards ${defrName}!`,
+          ];
+        case "Kirby":
+          return [
+            `${atkrName} aims a flurry of fist jabs at ${defrName}!`,
+            `${atkrName} whips out ${pn.posv} Hammer to smash ${defrName}!`,
+            `${atkrName} leaps forward to deliver a blow with ${pn.posv} Sword at ${defrName}!`,
+            `${atkrName} floats upward and drops toward ${defrName} in Stone form!`,
+          ];
+        case "Fox":
+          return [
+            `${atkrName} performs a tail sweep on ${defrName}!`,
+            `${atkrName} aims his Blaster at ${defrName} and fires at will!`,
+            `${atkrName} goes to lash ${defrName} with his Energy Whip!`,
+            `Flames form around ${atkrName}'s body, who launches himself at ${defrName}!`,
+          ];
+        case "Pikachu":
+          return [
+            `${atkrName} whips his jagged tail at ${defrName}!`,
+            `${atkrName} sends a bolt of electricity toward ${defrName}!`,
+            `${atkrName} launches himself head-first toward ${defrName}!`,
+            `${atkrName} summons lightning from the sky in ${defrName}'s direction!`,
+          ];
+        default:
+          return [`${atkrName} attacks ${defrName}!`];
+      }
+    }
+
+    const arr1 = [...atksByCharacter(defender.name)];
+    const arr2 = [...atksByCharacter("Kirby")];
+
+    if (attacker.name === "Kirby" && attacker.copying) {
+      let i = 0;
+      while (arr1.length > 0 || arr2.length > 0) {
+        if (i % 2 === 0 && arr1.length > 0) {
+          let newAttack = arr1.shift();
+          atkTextArray.push(newAttack, newAttack);
+        } else if (i % 2 === 1 && arr2.length > 0) {
+          let newAttack = arr2.shift();
+          atkTextArray.push(newAttack);
+        }
+        i++;
+      }
+    } else {
+      atkTextArray.push(...atksByCharacter(attacker.name));
     }
 
     const hitTextArray = [
+      "IT CONNECTS!",
       "HIT!",
       "SUCCESS!",
-      "BOOM!",
+      "NICE!",
       "OUCH!",
-      "IT CONNECTS!",
-      "KAPOW!",
+      "BOOM!",
+      "OOF!",
       "WHAM!",
       "WOW!",
-      "NICE!",
+      "KAPOW!",
+      "AMAZING!",
+      "INCREDIBLE!",
     ];
 
     const defTextArray = [
@@ -157,14 +209,32 @@ class Fighter {
     if (defender.name === "Fox") {
       defTextArray.push(
         `but ${defrName} activates his Reflector to repel the attack!`,
-        `but ${defrName} activates his Reflector to repel the attack!`,
+        `but ${defrName} activates his Reflector to repel the attack!`
       );
     }
 
     // LOGGING THE FIGHT
 
     const attackLog = document.createElement("p");
-    attackLog.innerHTML = randomPick(atkTextArray);
+
+    if (
+      attacker.name === "Kirby" &&
+      defender.name !== "Kirby" &&
+      !attacker.copying
+    ) {
+      let inhaleChance = Math.random();
+      if (inhaleChance > 0.7) {
+        attackLog.innerHTML = `${atkrName} briefly inhales ${defrName} to copy ${defender.pronouns.posv} abilities, becoming <span class="Kirby copying">${defender.name} Kirby</>!`;
+        attackLog.classList.add(`player${attacker.playerNum}`);
+        attacker.displayName = `<span class="Kirby">${defender.name} Kirby</span>`;
+        attacker.copying = true;
+        exchangeBox.append(attackLog);
+        logBox.append(exchangeBox);
+        return;
+      }
+    }
+
+    attackLog.innerHTML = randomPick(atkTextArray, atkNumValue);
     attackLog.classList.add(`player${attacker.playerNum}`);
     exchangeBox.append(attackLog);
 
@@ -175,17 +245,25 @@ class Fighter {
       defender.hp -= damage;
 
       defenseLog.innerHTML = `${randomPick(
-        hitTextArray
+        hitTextArray,
+        atkNumValue
       )} ${defrName} takes ${damage} damage and is down to <span class="hp">${noNeg(
         defender.hp
       )} HP</span`;
       defenseLog.classList.add(`player${defender.playerNum}`);
-      console.log(defender.playerNum);
       exchangeBox.append(defenseLog);
 
       if (damage >= 5) {
+        if (defender.name === "Kirby" && defender.copying) {
+          defender.copying = false;
+          defender.displayName = `<span class="Kirby">Kirby</span>`;
+          const eventLog = document.createElement("p");
+          eventLog.classList.add(`player${defender.playerNum}`);
+          eventLog.innerHTML = `<span class="Kirby">Kirby</span> loses his Copy ability!`;
+          exchangeBox.append(eventLog);
+        }
         const crowdLog = document.createElement("h2");
-        crowdLog.id = "crowd"
+        crowdLog.id = "crowd";
         crowdLog.innerText = `( The crowd chants: "${attacker.name.toUpperCase()}! ${attacker.name.toUpperCase()}! ${attacker.name.toUpperCase()}!" )`;
         exchangeBox.append(crowdLog);
       }
@@ -201,10 +279,11 @@ class Fighter {
 }
 
 fightButton.addEventListener("click", () => {
+  window.scrollTo(0, 0);
   logBox.innerHTML = "";
 
   // CREATES TWO FIGHTERS, assigns them random SSB identities
-  let player1 = new Fighter(randomPick(charNamesArr), "1");
+  let player1 = new Fighter(charNamesArr[5], "1");
   let player2 = new Fighter(randomPick(charNamesArr), "2");
 
   // Handles when both fighters are same character
@@ -223,6 +302,9 @@ fightButton.addEventListener("click", () => {
     logBox.append(readyGoLog);
 
     // Initiates an attack, and logs the results after a killing blow
+
+    // COPY TEST
+    // player1.copying = true;
     function atkFunc(attacker, defender) {
       attacker.atk(defender);
 
@@ -231,8 +313,17 @@ fightButton.addEventListener("click", () => {
         winnerLog.innerHTML = `The winner is . . . ${attacker.upperCaseName}!`;
         logBox.append(winnerLog);
 
+        console.log(typeof p1.displayName);
+
+        if (!p1.displayName.includes("copying"))
+          p1.displayName = `<span class="${p1.name}">${p1.name}</span>`;
+        if (!p2.displayName.includes("copying"))
+          p2.displayName = `<span class="${p2.name}">${p2.name}</span>`;
+
+        // console.log("Final display names: ", p1.displayName, p2.displayName);
+
         const resultsLog = document.createElement("h2");
-        resultsLog.classList.add("hp")
+        resultsLog.classList.add("hp");
         resultsLog.innerHTML = `Final HP's: ${p1.displayName} = ${noNeg(
           p1.hp
         )}, ${p2.displayName} = ${noNeg(p2.hp)}`;
