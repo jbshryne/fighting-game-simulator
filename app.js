@@ -313,7 +313,7 @@ fightButton.addEventListener("click", () => {
         winnerLog.innerHTML = `The winner is . . . ${attacker.upperCaseName}!`;
         logBox.append(winnerLog);
 
-        console.log(typeof p1.displayName);
+        // console.log(typeof p1.displayName);
 
         if (!p1.displayName.includes("copying"))
           p1.displayName = `<span class="${p1.name}">${p1.name}</span>`;
@@ -328,6 +328,10 @@ fightButton.addEventListener("click", () => {
           p1.hp
         )}, ${p2.displayName} = ${noNeg(p2.hp)}`;
         logBox.append(resultsLog);
+        const newMatchButton = document.createElement("button")
+        newMatchButton.innerText = "NEW MATCH!"
+        newMatchButton.style.marginTop = "30px"
+        logBox.append(newMatchButton)
       }
     }
 
