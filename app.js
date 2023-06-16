@@ -58,7 +58,7 @@ class Fighter {
         this.pronouns = {
           subj: "she",
           pred: "her",
-          posv: "hers",
+          posv: "her",
         };
         break;
       default:
@@ -328,11 +328,11 @@ function newMatch() {
           p1.hp
         )}, ${p2.displayName} = ${noNeg(p2.hp)}`;
         logBox.append(resultsLog);
-        const newMatchButton = document.createElement("button")
-        newMatchButton.innerText = "NEW MATCH!"
-        newMatchButton.style.marginTop = "30px"
-        newMatchButton.addEventListener("click", newMatch)
-        logBox.append(newMatchButton)
+        const newMatchButton = document.createElement("button");
+        newMatchButton.innerText = "NEW MATCH!";
+        newMatchButton.style.marginTop = "30px";
+        newMatchButton.addEventListener("click", newMatch);
+        logBox.append(newMatchButton);
       }
     }
 
@@ -351,4 +351,3 @@ function newMatch() {
 }
 
 fightButton.addEventListener("click", newMatch);
-
