@@ -181,18 +181,62 @@ class Fighter {
 
     const hitTextArray = [
       "IT CONNECTS!",
+      "GOT 'EM!",
       "HIT!",
-      "SUCCESS!",
       "NICE!",
-      "OUCH!",
       "BOOM!",
-      "OOF!",
       "WHAM!",
+      "OUCH!",
+      "OOF!",
       "WOW!",
       "KAPOW!",
       "AMAZING!",
       "INCREDIBLE!",
     ];
+
+    function chooseHitText(damage, array) {
+      var startIndex, endIndex;
+    
+      switch (damage) {
+        case 1:
+          startIndex = 0;
+          endIndex = 1;
+          break;
+        case 2:
+          startIndex = 2;
+          endIndex = 3;
+          break;
+        case 3:
+          startIndex = 4;
+          endIndex = 5;
+          break;
+        case 4:
+          startIndex = 6;
+          endIndex = 7;
+          break;
+        case 5:
+          startIndex = 8;
+          endIndex = 9;
+          break;
+        case 6:
+          startIndex = 10;
+          endIndex = 11;
+          break;
+        default:
+          startIndex = 0;
+          endIndex = 0;
+      }
+    
+      if (startIndex >= hitTextArray.length) {
+        startIndex = hitTextArray.length - 1;
+      }
+    
+      return hitTextArray[Math.floor(Math.random() * (endIndex - startIndex + 1)) + startIndex];
+    }
+    
+    const hitText = chooseHitText(damage, hitTextArray)
+
+    // console.log()
 
     const defTextArray = [
       `but the attack misses!`,
@@ -244,10 +288,7 @@ class Fighter {
     if (damage > 0) {
       defender.hp -= damage;
 
-      defenseLog.innerHTML = `${randomPick(
-        hitTextArray,
-        atkNumValue
-      )} ${defrName} takes ${damage} damage and is down to <span class="hp">${noNeg(
+      defenseLog.innerHTML = `${hitText} ${defrName} takes ${damage} damage and is down to <span class="hp">${noNeg(
         defender.hp
       )} HP</span`;
       defenseLog.classList.add(`player${defender.playerNum}`);
