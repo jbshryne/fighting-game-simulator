@@ -31,7 +31,7 @@ const fightButton = document.getElementById("fightButton");
 const logBox = document.getElementById("logBox");
 
 class Fighter {
-  constructor(name, playerNum, hp = 20, str = 0, def = 0) {
+  constructor(name, playerNum, hp = 10, str = 0, def = 0) {
     this.name = name;
     this.displayName = `<span class="${name}">${name}</span>`;
     this.upperCaseName = `<span class="${name}">${name.toUpperCase()}</span>`;
@@ -283,7 +283,7 @@ fightButton.addEventListener("click", () => {
   logBox.innerHTML = "";
 
   // CREATES TWO FIGHTERS, assigns them random SSB identities
-  let player1 = new Fighter(charNamesArr[5], "1");
+  let player1 = new Fighter(randomPick(charNamesArr), "1");
   let player2 = new Fighter(randomPick(charNamesArr), "2");
 
   // Handles when both fighters are same character
